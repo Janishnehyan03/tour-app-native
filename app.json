@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "demoApp",
-    "slug": "demoApp",
+    "name": "test",
+    "slug": "my-tour-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,10 +24,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.janishnehyan03.mytourapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6d106e3e-a927-4c47-a3b7-ac48953d76c2"
+      }
+    },
+    "owner": "janishnehyan03"
   }
 }
