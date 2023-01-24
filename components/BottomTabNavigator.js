@@ -8,24 +8,7 @@ const Tab = createBottomTabNavigator();
 
 function BottomTabNavigator() {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        activeTintColor: "#e91e63",
-        inactiveTintColor: "gray",
-        style: {
-          backgroundColor: "white",
-          borderTopWidth: 0,
-          shadowOffset: { width: 5, height: 3 },
-          shadowColor: "black",
-          shadowOpacity: 0.5,
-          elevation: 5,
-        },
-        labelStyle: {
-          fontSize: 14,
-          fontWeight: "bold",
-        },
-      }}
-    >
+    <Tab.Navigator>
       <Tab.Screen
         name="Homescreen"
         component={HomeScreen}

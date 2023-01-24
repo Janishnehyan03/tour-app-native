@@ -29,7 +29,7 @@ function Signup({ navigation }) {
       if (response.data.token) {
         await AsyncStorage.setItem("token", response.data.token);
         await AsyncStorage.setItem("user", JSON.stringify(response.data.data));
-        navigation.navigate("Home");
+        navigation.navigate("Homescreen");
       } else {
         alert("something went wrong");
       }

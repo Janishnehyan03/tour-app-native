@@ -10,8 +10,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 import StarRating from "react-native-star-rating";
+import { ScrollView } from "react-native-web";
 import Axios from "../Axios";
 
 const Card = ({ image, name, rating, price, location, item }) => {
@@ -66,20 +68,28 @@ const CardList = () => {
     getAllTours();
   }, []);
   return (
-    <FlatList
-      data={tours}
-      renderItem={({ item }) => (
-        <Card
-          image={item.imageCover}
-          price={item.price}
-          name={item.name}
-          rating={item.rating}
-          location={item.startLocation.description}
-          tour={item}
-        />
+    <>
+      {!tours.length > 0 ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <>
+          <FlatList
+            data={tours}
+            renderItem={({ item }) => (
+              <Card
+                image={item.imageCover}
+                price={item.price}
+                name={item.name}
+                rating={item.rating}
+                location={item.startLocation.description}
+                item={item}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </>
       )}
-      keyExtractor={(item) => item.id.toString()}
-    />
+    </>
   );
 };
 const styles = StyleSheet.create({

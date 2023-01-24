@@ -1,15 +1,41 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useContext, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
 // import { Input, Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { Card, Icon } from "react-native-elements";
+import { AuthContext } from "../services/userContext";
+import { Avatar } from "../assets";
+import Axios from "../Axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function UserProfilePage() {
   const navigation = useNavigation();
-
-  const handleLogout = () => {
-    // Handle logout logic here
-    navigation.navigate("Login");
+  const { user } = useContext(AuthContext);
+  const handleConfirm = () => {
+    Alert.alert("Logout", "Are you sure you want to logout?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "OK", onPress: () => logout() },
+    ]);
+  };
+  const logout = async () => {
+    try {
+      let res = await Axios.get("/users/logout");
+      if (res.status === 200) {
+        AsyncStorage.removeItem("token");
+        AsyncStorage.removeItem("user");
+        navigation.navigate("Login");
+      }
+    } catch (error) {
+      console.log(JSON.parse(error.response));
+      Alert.alert("something went wrong");
+    }
   };
 
   return (
@@ -24,13 +50,10 @@ function UserProfilePage() {
           borderRadius: 150,
           marginTop: 13,
         }}
-        source={{
-          uri: "https://images.unsplash.com/photo-1673972268351-9319c271c8cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1NHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
-        }}
+        source={Avatar}
       />
-      <Text className="text-violet-800 text-2xl">Janish Nehyan</Text>
-      <Text>nehyanjanish@gmail.com</Text>
-      <Text>+91 8086996655</Text>
+      <Text className="text-violet-800 text-2xl">{user?.name}</Text>
+      <Text>{user?.email}</Text>
 
       {/* <Input
         label="Update Username"
@@ -60,7 +83,7 @@ function UserProfilePage() {
       /> */}
       <BookingCard />
 
-      <TouchableOpacity onPress={handleLogout}>
+      <TouchableOpacity onPress={() => handleConfirm()}>
         <Text className="bg-red-400 text-white px-3 py-1">Logout</Text>
       </TouchableOpacity>
     </View>
@@ -107,7 +130,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 18,
     color: "#7D3C98",
-    textTransform:"uppercase"
+    textTransform: "uppercase",
   },
 });
 
